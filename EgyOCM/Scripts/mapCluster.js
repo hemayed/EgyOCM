@@ -96,7 +96,7 @@ function GetMap(myArray) {
 
         createClusterLayer(0);
 
-        if (zoomLevel > 7) {
+        if (zoomLevel > 8) {
 
             showClusterLayer();
 
@@ -141,7 +141,7 @@ function viewChanged(e) {
     var currentZoomLevel = map.getZoom();
     var targetZoom = map.getTargetZoom();
   
-    if (targetZoom > 7)
+    if (targetZoom > 8)
         showClusterLayer();
     else 
         showGovtLayer();
