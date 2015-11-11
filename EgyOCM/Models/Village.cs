@@ -14,6 +14,11 @@ namespace EgyOCM.Models
     
     public partial class Village
     {
+        public Village()
+        {
+            this.Clusters = new HashSet<Cluster>();
+        }
+    
         public string Village_ID { get; set; }
         public string Village_Name { get; set; }
         public string Govt_ID { get; set; }
@@ -21,5 +26,6 @@ namespace EgyOCM.Models
     
         public virtual District District { get; set; }
         public virtual Governorate Governorate { get; set; }
+        public virtual ICollection<Cluster> Clusters { get; set; }
     }
 }

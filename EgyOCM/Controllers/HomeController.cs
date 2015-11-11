@@ -100,15 +100,7 @@ namespace EgyOCM.Controllers
             foreach (Cluster c in clusters)
             {
 
-                c.District = db.Districts.Find(c.District_ID);
-                c.Village = db.Villages.Find(c.Village_ID);
-                c.ClusterNature = db.ClusterNatures.Find(c.ClusterNature_ID);
-                c.ClusterType = db.ClusterTypes.Find(c.ClusterType_ID);
-                c.ProductSeason = db.ProductSeasons.Find(c.ProductSeason_ID);
-                c.ExportFlag = db.ExportFlags.Find(c.ExportFlag_ID);
-                c.IncomeLevel = db.IncomeLevels.Find(c.IncomeLevel_ID);
-                c.MarketType = db.MarketTypes.Find(c.MarketType_ID);
-
+              
                 ClusterShortData clusterShortData = new ClusterShortData();
                 clusterShortData.Cluster_ID = c.Cluster_ID;
                 clusterShortData.Cluster_Name = c.Cluster_Name;
@@ -145,15 +137,7 @@ namespace EgyOCM.Controllers
 
             foreach (Cluster c in clusters)
             {
-                c.District = db.Districts.Find(c.District_ID);
-                c.Village = db.Villages.Find(c.Village_ID);
-                c.ClusterNature = db.ClusterNatures.Find(c.ClusterNature_ID);
-                c.ClusterType = db.ClusterTypes.Find(c.ClusterType_ID);
-                c.ProductSeason = db.ProductSeasons.Find(c.ProductSeason_ID);
-                c.ExportFlag = db.ExportFlags.Find(c.ExportFlag_ID);
-                c.IncomeLevel = db.IncomeLevels.Find(c.IncomeLevel_ID);
-                c.MarketType = db.MarketTypes.Find(c.MarketType_ID);
-
+               
                 ClusterShortData clusterShortData = new ClusterShortData();
                 clusterShortData.Cluster_ID = c.Cluster_ID;
                 clusterShortData.Cluster_Name = c.Cluster_Name;
@@ -162,7 +146,7 @@ namespace EgyOCM.Controllers
                 clusterShortData.Products = c.Products;
                 clusterShortData.Sector_Name = c.Sector.Sector_Name;
                 clusterShortData.Field_Name = c.Field.Field_Name;
-                clusterShortData.Product_Name = db.Products.Find(c.Product_ID).Product_Name;
+                clusterShortData.Product_Name = c.Product.Product_Name;
                 listClusterShortData.Add(clusterShortData);
             }
 
@@ -182,16 +166,8 @@ namespace EgyOCM.Controllers
             {
                 return HttpNotFound();
             }
-            cluster.District = db.Districts.Find(cluster.District_ID);
-            cluster.Village = db.Villages.Find(cluster.Village_ID);
-            cluster.ClusterNature = db.ClusterNatures.Find(cluster.ClusterNature_ID);
-            cluster.ClusterType = db.ClusterTypes.Find(cluster.ClusterType_ID);
-            cluster.ProductSeason = db.ProductSeasons.Find(cluster.ProductSeason_ID);
-            cluster.ExportFlag = db.ExportFlags.Find(cluster.ExportFlag_ID);
-            cluster.IncomeLevel = db.IncomeLevels.Find(cluster.IncomeLevel_ID);
-            cluster.MarketType = db.MarketTypes.Find(cluster.MarketType_ID);
-
-            return View("ClusterDetail", cluster);
+           
+                        return View("ClusterDetail", cluster);
 
         }
 
@@ -239,15 +215,6 @@ namespace EgyOCM.Controllers
                 var govtIndex = Convert.ToInt16(c.Govt_ID) - 1;
                 var sectorIndex = Convert.ToInt16(c.Sector_ID) - 1;
 
-                c.District = db.Districts.Find(c.District_ID);
-                c.Village = db.Villages.Find(c.Village_ID);
-                c.ClusterNature = db.ClusterNatures.Find(c.ClusterNature_ID);
-                c.ClusterType = db.ClusterTypes.Find(c.ClusterType_ID);
-                c.ProductSeason = db.ProductSeasons.Find(c.ProductSeason_ID);
-                c.ExportFlag = db.ExportFlags.Find(c.ExportFlag_ID);
-                c.IncomeLevel = db.IncomeLevels.Find(c.IncomeLevel_ID);
-                c.MarketType = db.MarketTypes.Find(c.MarketType_ID);
-
                 ClusterData clusterData = new ClusterData();
                 listGovtData[govtIndex].Cluster_Num++;
                 listGovtData[govtIndex].ShopNumMin = listGovtData[govtIndex].ShopNumMin + c.Cluster_ShopNumMin;
@@ -265,13 +232,18 @@ namespace EgyOCM.Controllers
                 clusterData.Govt_ID = Convert.ToInt16(c.Govt_ID);
                 clusterData.Govt_Name = c.Governorate.Govt_Name;
 
-                if (c.District_ID != null)
-                    clusterData.District_Name = db.Districts.Find(c.District_ID).District_Name;
+                if (c.District_ID != null){
+                    clusterData.District_Name = c.District.District_Name;
+                    clusterData.Cluster_Info1 = clusterData.Cluster_Info1 + " - " + clusterData.District_Name;
+                }
                 else
                     clusterData.District_Name = "";
 
-                if (c.Village_ID != null)
-                    clusterData.Village_Name = db.Villages.Find(c.Village_ID).Village_Name;
+                if (c.Village_ID != null){
+                    clusterData.Village_Name =c.Village.Village_Name;
+                    clusterData.Cluster_Info1 = clusterData.Cluster_Info1 + " - " + clusterData.Village_Name;
+                }
+                    
                 else
                     clusterData.Village_Name = "";
 
@@ -279,18 +251,10 @@ namespace EgyOCM.Controllers
                 clusterData.Cluster_ProductImage = c.Cluster_ProductImage;
                 clusterData.Cluster_Info1 = c.Governorate.Govt_Name;
 
-                if (c.District_ID  != null)
-                    clusterData.Cluster_Info1 = clusterData.Cluster_Info1 + " - " + db.Districts.Find(c.District_ID).District_Name;
-
-                if (c.Village_ID != null)
-                    clusterData.Cluster_Info1 = clusterData.Cluster_Info1 + " - " + db.Villages.Find(c.Village_ID).Village_Name;
-
-
+              
                 clusterData.Cluster_Info2 = " متوسط عدد العاملين " + ":&nbsp";
                 if (c.Cluster_EmpNumMin != 0)
                     clusterData.Cluster_Info2 = clusterData.Cluster_Info2 + c.Cluster_EmpNumMin;
-
-
 
 
                 clusterData.Cluster_Info3 = " متوسط عدد الوحدات الانتاجية " + ":&nbsp";
